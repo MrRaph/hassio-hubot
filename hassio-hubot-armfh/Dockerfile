@@ -6,6 +6,7 @@ ARG BUILD_FROM=hassioaddons/ubuntu-base-${BUILD_ARCH}:2.0.0
 FROM ${BUILD_FROM}
 
 RUN apt-get update && \
+    curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash - && \
     apt-get install -y nodejs npm jq && \
     npm install -g yo generator-hubot && \
     mkdir -p /data/hubot /root/.config/insight-nodejs && \
