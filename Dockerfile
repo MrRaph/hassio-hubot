@@ -10,8 +10,6 @@ RUN apk add --update nodejs nodejs-npm jq && \
 
 WORKDIR /hubot
 
-RUN yo hubot --owner="Hubot HomeAssistant" --name="Hubot" --adapter=slack
-
 COPY external-scripts.json /hubot/external-scripts.json
 COPY run.sh /
 RUN chmod a+x /run.sh
