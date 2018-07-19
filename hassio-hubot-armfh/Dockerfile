@@ -1,22 +1,18 @@
-# Setup base system
-ARG BUILD_ARCH=armhf
-
-ARG BUILD_FROM=hassioaddons/ubuntu-base-${BUILD_ARCH}:2.0.0
-# hadolint ignore=DL3006
+ARG BUILD_FROM
 FROM ${BUILD_FROM}
 
-RUN apt-get update && \
-    curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash - && \
-    apt-get install -y nodejs npm jq && \
+ENV LANG C.UTF-8
+
+RUN apk add --update nodejs nodejs-npm jq && \
     npm install -g yo generator-hubot && \
-    mkdir -p /data/hubot /root/.config/insight-nodejs && \
+    mkdir -p /hubot /root/.config/insight-nodejs && \
     chmod g+rwx /root /root/.config /root/.config/insight-nodejs
 
-WORKDIR /data/hubot
+WORKDIR /hubot
 
 RUN yo hubot --owner="Hubot HomeAssistant" --name="Hubot" --adapter=slack
 
-COPY external-scripts.json /data/hubot/external-scripts.json
+COPY external-scripts.json /hubot/external-scripts.json
 COPY run.sh /
 RUN chmod a+x /run.sh
 CMD [ "/run.sh" ]
